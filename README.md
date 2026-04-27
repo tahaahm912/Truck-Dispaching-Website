@@ -43,7 +43,9 @@ The site is built as a **single HTML file** with no build tools or frameworks �
 ## 2. File Structure
 
 ```
-routemasters_updated.html      ← Entire application (single file)
+index.html                     ← Entire application
+styles.css                     ← UI/Styles
+main.js                        ← Main Functionalities
 README.md                      ← This documentation
 ```
 
