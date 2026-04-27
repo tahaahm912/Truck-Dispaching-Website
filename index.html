@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RouteMasters Pro — Truck Dispatching Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            50: '#f0f4f8',
+                            100: '#d9e2ec',
+                            200: '#bcccdc',
+                            300: '#9fb3c8',
+                            400: '#829ab1',
+                            500: '#627d98',
+                            600: '#486581',
+                            700: '#334e68',
+                            800: '#1a3650',
+                            900: '#0d1f33',
+                            950: '#07111d',
+                        },
+                        accent: {
+                            50: '#fff8f0',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        }
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-white text-navy-900 overflow-x-hidden">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" onclick="navigateTo('home')" class="flex items-center gap-3 group">
+                    <div
+                        class="w-10 h-10 bg-accent-500 rounded-lg flex items-center justify-center group-hover:bg-accent-600 transition-colors">
+                        <i data-lucide="truck" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold text-white">Route<span
+                                class="text-accent-500">Masters</span></span>
+                        <span class="block text-[10px] font-medium text-navy-300 tracking-[0.2em] uppercase -mt-1">Pro
+                            Dispatch</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#" onclick="navigateTo('home')"
+                        class="nav-link text-sm font-medium text-navy-200 hover:text-white transition-colors active"
+                        data-nav="home">Home</a>
+                    <a href="#" onclick="navigateTo('about')"
+                        class="nav-link text-sm font-medium text-navy-200 hover:text-white transition-colors"
+                        data-nav="about">About Us</a>
+                    <a href="#" onclick="navigateTo('services')"
+                        class="nav-link text-sm font-medium text-navy-200 hover:text-white transition-colors"
+                        data-nav="services">Services</a>
+                    <a href="#" onclick="navigateTo('pricing')"
+                        class="nav-link text-sm font-medium text-navy-200 hover:text-white transition-colors"
+                        data-nav="pricing">Pricing</a>
+                    <a href="#" onclick="navigateTo('contact')"
+                        class="nav-link text-sm font-medium text-navy-200 hover:text-white transition-colors"
+                        data-nav="contact">Contact</a>
+                    <a href="#" onclick="navigateTo('driver')"
+                        class="nav-link text-sm font-medium text-navy-200 hover:text-white transition-colors"
+                        data-nav="driver">Driver Registration</a>
+
+                </div>
+
+                <!-- CTA + Theme Toggle + Mobile Toggle -->
+                <div class="flex items-center gap-3">
+                    <button id="themeToggleBtn" onclick="toggleTheme()"
+                        title="Toggle dark/light theme"
+                        class="w-10 h-10 flex items-center justify-center rounded-lg border border-white/20 bg-white/10 hover:bg-white/20 text-white transition-all"
+                        aria-label="Toggle theme">
+                        <i data-lucide="sun" class="w-5 h-5 hidden" id="themeIconSun"></i>
+                        <i data-lucide="moon" class="w-5 h-5" id="themeIconMoon"></i>
+                    </button>
+                    <a href="#" onclick="navigateTo('contact')"
+                        class="hidden sm:inline-flex items-center gap-2 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-all hover:shadow-lg hover:shadow-accent-500/25">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                        Get a Quote
+                    </a>
+                    <button id="mobileMenuBtn"
+                        class="lg:hidden text-white p-2 hover:bg-navy-800 rounded-lg transition-colors">
+                        <i data-lucide="menu" class="w-6 h-6" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-navy-950 shadow-2xl lg:hidden z-50">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-8">
+                    <span class="text-lg font-bold text-white">Menu</span>
+                    <button id="closeMobileMenu" class="p-2 hover:bg-navy-800 rounded-lg transition-colors">
+                        <i data-lucide="x" class="w-6 h-6 text-white"></i>
+                    </button>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <a href="#" onclick="navigateTo('home'); closeMobileMenu();"
+                        class="flex items-center gap-3 px-4 py-3 text-navy-200 hover:text-white hover:bg-navy-800 rounded-lg transition-colors">
+                        <i data-lucide="home" class="w-5 h-5"></i> Home
+                    </a>
+                    <a href="#" onclick="navigateTo('about'); closeMobileMenu();"
+                        class="flex items-center gap-3 px-4 py-3 text-navy-200 hover:text-white hover:bg-navy-800 rounded-lg transition-colors">
+                        <i data-lucide="building-2" class="w-5 h-5"></i> About Us
+                    </a>
+                    <a href="#" onclick="navigateTo('services'); closeMobileMenu();"
+                        class="flex items-center gap-3 px-4 py-3 text-navy-200 hover:text-white hover:bg-navy-800 rounded-lg transition-colors">
+                        <i data-lucide="settings" class="w-5 h-5"></i> Services
+                    </a>
+                    <a href="#" onclick="navigateTo('pricing'); closeMobileMenu();"
+                        class="flex items-center gap-3 px-4 py-3 text-navy-200 hover:text-white hover:bg-navy-800 rounded-lg transition-colors">
+                        <i data-lucide="dollar-sign" class="w-5 h-5"></i> Pricing
+                    </a>
+                    <a href="#" onclick="navigateTo('contact'); closeMobileMenu();"
+                        class="flex items-center gap-3 px-4 py-3 text-navy-200 hover:text-white hover:bg-navy-800 rounded-lg transition-colors">
+                        <i data-lucide="mail" class="w-5 h-5"></i> Contact
+                    </a>
+                    <a href="#" onclick="navigateTo('driver'); closeMobileMenu();"
+                        class="flex items-center gap-3 px-4 py-3 text-navy-200 hover:text-white hover:bg-navy-800 rounded-lg transition-colors">
+                        <i data-lucide="user-plus" class="w-5 h-5"></i> Driver Registration
+                    </a>
+                </div>
+                <div class="mt-8 pt-6 border-t border-navy-800">
+                    <a href="#" onclick="navigateTo('contact'); closeMobileMenu();"
+                        class="flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors w-full">
+                        <i data-lucide="phone" class="w-4 h-4"></i> Get a Quote
+                    </a>
+                    <div class="mt-6 text-center">
+                        <p class="text-navy-400 text-sm">Call us anytime</p>
+                        <p class="text-white font-semibold">(888) 555-0199</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Backdrop -->
+    <div id="mobileBackdrop" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="closeMobileMenu()"></div>
+
+
+    <!-- ==================== HOME PAGE ==================== -->
+    <div id="page-home" class="page-section active-page">
+
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center overflow-hidden">
+            <!-- Background Image -->
+            <div class="absolute inset-0">
+                <img src="https://picsum.photos/seed/truck-highway-night/1920/1080.jpg" alt="Highway at night"
+                    class="w-full h-full object-cover">
+                <div class="hero-overlay absolute inset-0"></div>
+            </div>
+
+            <!-- Animated truck silhouette -->
+            <div class="absolute bottom-20 left-0 truck-animate opacity-10">
+                <i data-lucide="truck" class="w-32 h-32 text-accent-500"></i>
+            </div>
+
+            <!-- Content -->
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+                <div class="max-w-3xl">
+                    <!-- Badge -->
+                    <div
+                        class="reveal inline-flex items-center gap-2 bg-accent-500/10 border border-accent-500/30 rounded-full px-4 py-1.5 mb-6">
+                        <span class="w-2 h-2 bg-accent-500 rounded-full pulse-dot"></span>
+                        <span class="text-accent-400 text-xs font-semibold tracking-wide uppercase">America's Trusted
+                            Dispatch Partner</span>
+                    </div>
+
+                    <!-- Headline -->
+                    <h1
+                        class="reveal text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6">
+                        Keep Your Trucks
+                        <span class="text-accent-500"> Moving</span>
+                        & Earning
+                    </h1>
+
+                    <!-- Subheadline -->
+                    <p class="reveal text-lg sm:text-xl text-navy-300 font-light leading-relaxed mb-10 max-w-xl">
+                        We handle the dispatching so you can focus on driving. Maximize your loads, minimize deadhead
+                        miles, and boost your revenue with our 24/7 expert dispatch service.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="reveal flex flex-col sm:flex-row gap-4">
+                        <a href="#" onclick="navigateTo('contact')"
+                            class="inline-flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-base px-8 py-4 rounded-xl transition-all hover:shadow-xl hover:shadow-accent-500/30 hover:-translate-y-0.5">
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+                            Get a Free Quote
+                        </a>
+                    </div>
+
+                    <!-- Trust indicators -->
+                    <div class="reveal mt-12 flex flex-wrap items-center gap-6 text-navy-400 text-sm">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-4 h-4 text-accent-500"></i>
+                            <span>Licensed & Insured</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="clock" class="w-4 h-4 text-accent-500"></i>
+                            <span>24/7 Dispatch</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="users" class="w-4 h-4 text-accent-500"></i>
+                            <span>500+ Active Drivers</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="absolute bottom-0 left-0 right-0 stats-bar border-t border-white/10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                        <div class="text-center">
+                            <div class="text-2xl sm:text-3xl font-bold text-white count-up" data-target="500">0</div>
+                            <div class="text-xs sm:text-sm text-navy-400 mt-1">Active Drivers</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl sm:text-3xl font-bold text-white count-up" data-target="15000">0</div>
+                            <div class="text-xs sm:text-sm text-navy-400 mt-1">Loads Dispatched</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl sm:text-3xl font-bold text-accent-500">98<span class="text-lg">%</span>
+                            </div>
+                            <div class="text-xs sm:text-sm text-navy-400 mt-1">On-Time Rate</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl sm:text-3xl font-bold text-white">48 <span
+                                    class="text-lg text-navy-400">States</span></div>
+                            <div class="text-xs sm:text-sm text-navy-400 mt-1">Coverage Area</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Overview -->
+        <section class="py-20 sm:py-28 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div
+                        class="reveal inline-flex items-center gap-2 bg-accent-50 text-accent-600 rounded-full px-4 py-1.5 mb-4">
+                        <span class="text-xs font-semibold tracking-wide uppercase">What We Do</span>
+                    </div>
+                    <h2 class="reveal text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-900 tracking-tight mb-4">
+                        End-to-End Dispatch Solutions</h2>
+                    <p class="reveal text-navy-500 text-lg max-w-2xl mx-auto">From finding the best-paying loads to
+                        handling all paperwork, we've got every aspect of your trucking business covered.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
+                    <!-- Card 1 -->
+                    <div class="reveal service-card gradient-border rounded-2xl p-8 border border-navy-100 cursor-pointer"
+                        onclick="navigateTo('services')">
+                        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="package-search" class="w-7 h-7 text-accent-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">Load Booking</h3>
+                        <p class="text-navy-500 leading-relaxed mb-4">We find the highest-paying freight that matches
+                            your equipment and preferred lanes, ensuring you never run empty.</p>
+                        <span class="text-accent-500 font-semibold text-sm inline-flex items-center gap-1 group">
+                            Learn more <i data-lucide="arrow-right"
+                                class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="reveal service-card gradient-border rounded-2xl p-8 border border-navy-100 cursor-pointer"
+                        onclick="navigateTo('services')">
+                        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="route" class="w-7 h-7 text-accent-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">Route Planning</h3>
+                        <p class="text-navy-500 leading-relaxed mb-4">Optimized routes that minimize fuel costs, avoid
+                            delays, and keep you compliant with HOS regulations at all times.</p>
+                        <span class="text-accent-500 font-semibold text-sm inline-flex items-center gap-1 group">
+                            Learn more <i data-lucide="arrow-right"
+                                class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="reveal service-card gradient-border rounded-2xl p-8 border border-navy-100 cursor-pointer"
+                        onclick="navigateTo('services')">
+                        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="headphones" class="w-7 h-7 text-accent-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">Driver Support</h3>
+                        <p class="text-navy-500 leading-relaxed mb-4">Round-the-clock assistance for breakdowns, fuel
+                            stops, weather alerts, and anything you need on the road.</p>
+                        <span class="text-accent-500 font-semibold text-sm inline-flex items-center gap-1 group">
+                            Learn more <i data-lucide="arrow-right"
+                                class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="reveal service-card gradient-border rounded-2xl p-8 border border-navy-100 cursor-pointer"
+                        onclick="navigateTo('services')">
+                        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="file-check" class="w-7 h-7 text-accent-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">Documentation</h3>
+                        <p class="text-navy-500 leading-relaxed mb-4">Rate confirmations, BOLs, invoices — we handle all
+                            the paperwork so you can focus on driving safely.</p>
+                        <span class="text-accent-500 font-semibold text-sm inline-flex items-center gap-1 group">
+                            Learn more <i data-lucide="arrow-right"
+                                class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="reveal service-card gradient-border rounded-2xl p-8 border border-navy-100 cursor-pointer"
+                        onclick="navigateTo('services')">
+                        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="radio" class="w-7 h-7 text-accent-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">24/7 Dispatch</h3>
+                        <p class="text-navy-500 leading-relaxed mb-4">Your dedicated dispatcher is always available —
+                            nights, weekends, and holidays. We never stop working for you.</p>
+                        <span class="text-accent-500 font-semibold text-sm inline-flex items-center gap-1 group">
+                            Learn more <i data-lucide="arrow-right"
+                                class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    <!-- Card 6 -->
+                    <div class="reveal service-card gradient-border rounded-2xl p-8 border border-navy-100 cursor-pointer"
+                        onclick="navigateTo('services')">
+                        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="trending-up" class="w-7 h-7 text-accent-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy-900 mb-3">Revenue Growth</h3>
+                        <p class="text-navy-500 leading-relaxed mb-4">Our data-driven approach consistently increases
+                            driver earnings by 20-35% compared to self-dispatching.</p>
+                        <span class="text-accent-500 font-semibold text-sm inline-flex items-center gap-1 group">
+                            Learn more <i data-lucide="arrow-right"
+                                class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="py-20 sm:py-28 bg-navy-950 relative overflow-hidden">
+            <!-- Background decoration -->
+            <div class="absolute top-0 right-0 w-96 h-96 bg-accent-500/5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-72 h-72 bg-navy-700/30 rounded-full blur-3xl"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <!-- Left: Image -->
+                    <div class="reveal-left relative">
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                            <img src="https://picsum.photos/seed/truck-fleet-parking/800/600.jpg" alt="Truck fleet"
+                                class="w-full h-[400px] sm:h-[500px] object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/60 to-transparent"></div>
+                        </div>
+                        <!-- Floating stat card -->
+                        <div class="absolute -bottom-6 -right-4 sm:right-8 bg-white rounded-xl shadow-xl p-5 float">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="trending-up" class="w-6 h-6 text-green-600"></i>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-navy-900">+32%</div>
+                                    <div class="text-sm text-navy-500">Avg. Revenue Increase</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Content -->
+                    <div class="reveal-right">
+                        <div
+                            class="inline-flex items-center gap-2 bg-accent-500/10 text-accent-400 rounded-full px-4 py-1.5 mb-4">
+                            <span class="text-xs font-semibold tracking-wide uppercase">Why RouteMasters</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-6">Built to
+                            Put More Money in Your Pocket</h2>
+                        <p class="text-navy-300 text-lg leading-relaxed mb-10">We're not just dispatchers — we're your
+                            business partners. Every decision we make is designed to maximize your profitability and
+                            keep you running smoothly.</p>
+
+                        <div class="space-y-6">
+                            <div class="flex gap-4">
+                                <div
+                                    class="flex-shrink-0 w-12 h-12 bg-accent-500/10 border border-accent-500/20 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="dollar-sign" class="w-6 h-6 text-accent-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white mb-1">Increase Your Profits</h4>
+                                    <p class="text-navy-400 leading-relaxed">Our dispatchers negotiate top rates and
+                                        plan backhauls to eliminate deadhead miles, boosting your per-mile earnings
+                                        significantly.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div
+                                    class="flex-shrink-0 w-12 h-12 bg-accent-500/10 border border-accent-500/20 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="clock" class="w-6 h-6 text-accent-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white mb-1">24/7 Dispatch Coverage</h4>
+                                    <p class="text-navy-400 leading-relaxed">Your truck doesn't sleep and neither do we.
+                                        We cover all hours including weekends and holidays to keep your wheels turning.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div
+                                    class="flex-shrink-0 w-12 h-12 bg-accent-500/10 border border-accent-500/20 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="smile" class="w-6 h-6 text-accent-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white mb-1">Stress-Free Operations</h4>
+                                    <p class="text-navy-400 leading-relaxed">No more scrambling for loads or haggling
+                                        with brokers. We handle everything so you can drive peacefully and go home on
+                                        time.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-20 sm:py-28 bg-navy-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div
+                        class="reveal inline-flex items-center gap-2 bg-accent-50 text-accent-600 rounded-full px-4 py-1.5 mb-4">
+                        <span class="text-xs font-semibold tracking-wide uppercase">Testimonials</span>
+                    </div>
+                    <h2 class="reveal text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-900 tracking-tight mb-4">What
+                        Our Drivers Say</h2>
+                    <p class="reveal text-navy-500 text-lg max-w-2xl mx-auto">Real feedback from real drivers who've
+                        transformed their business with RouteMasters Pro.</p>
+                </div>
+
+                <!-- Testimonial Slider -->
+                <div class="reveal relative overflow-hidden">
+                    <div id="testimonialTrack" class="testimonial-track flex">
+                        <!-- Testimonial 1 -->
+                        <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3">
+                            <div class="bg-white rounded-2xl p-8 shadow-sm border border-navy-100 h-full">
+                                <div class="flex gap-1 mb-4">
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                </div>
+                                <p class="text-navy-600 leading-relaxed mb-6">"Since switching to RouteMasters, my
+                                    weekly revenue went from $3,200 to $4,800. They consistently find me high-paying
+                                    loads and I almost never run empty anymore."</p>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-navy-200 rounded-full flex items-center justify-center">
+                                        <span class="text-lg font-bold text-navy-700">MJ</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-navy-900">Marcus Johnson</div>
+                                        <div class="text-sm text-navy-500">Owner Operator — Dry Van</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 2 -->
+                        <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3">
+                            <div class="bg-white rounded-2xl p-8 shadow-sm border border-navy-100 h-full">
+                                <div class="flex gap-1 mb-4">
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                </div>
+                                <p class="text-navy-600 leading-relaxed mb-6">"Best dispatch company I've worked with in
+                                    12 years of trucking. My dispatcher knows my preferences and always finds loads that
+                                    work for my schedule. Highly recommend!"</p>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center">
+                                        <span class="text-lg font-bold text-accent-700">RW</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-navy-900">Robert Williams</div>
+                                        <div class="text-sm text-navy-500">Owner Operator — Reefer</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 3 -->
+                        <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3">
+                            <div class="bg-white rounded-2xl p-8 shadow-sm border border-navy-100 h-full">
+                                <div class="flex gap-1 mb-4">
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                </div>
+                                <p class="text-navy-600 leading-relaxed mb-6">"I was skeptical at first, but these guys
+                                    are legit. They handle all my broker calls, rate negotiations, and paperwork. I just
+                                    drive and make more money. Simple as that."</p>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-navy-200 rounded-full flex items-center justify-center">
+                                        <span class="text-lg font-bold text-navy-700">DK</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-navy-900">David Kim</div>
+                                        <div class="text-sm text-navy-500">Owner Operator — Flatbed</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 4 -->
+                        <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3">
+                            <div class="bg-white rounded-2xl p-8 shadow-sm border border-navy-100 h-full">
+                                <div class="flex gap-1 mb-4">
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                </div>
+                                <p class="text-navy-600 leading-relaxed mb-6">"As a small fleet owner with 5 trucks,
+                                    RouteMasters has been a game-changer. My dispatch costs are lower than hiring
+                                    in-house and the service is exceptional around the clock."</p>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center">
+                                        <span class="text-lg font-bold text-accent-700">SP</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-navy-900">Sarah Patel</div>
+                                        <div class="text-sm text-navy-500">Fleet Owner — 5 Trucks</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 5 -->
+                        <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3">
+                            <div class="bg-white rounded-2xl p-8 shadow-sm border border-navy-100 h-full">
+                                <div class="flex gap-1 mb-4">
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
+                                </div>
+                                <p class="text-navy-600 leading-relaxed mb-6">"I get to spend more time with my family
+                                    now. RouteMasters handles everything — I just pick up and deliver. My weekends are
+                                    finally my own again."</p>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-navy-200 rounded-full flex items-center justify-center">
+                                        <span class="text-lg font-bold text-navy-700">TM</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-navy-900">Thomas Martinez</div>
+                                        <div class="text-sm text-navy-500">Owner Operator — Box Truck</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slider Controls -->
+                    <div class="flex items-center justify-center gap-4 mt-8">
+                        <button onclick="slideTestimonials(-1)"
+                            class="w-12 h-12 rounded-full border border-navy-200 flex items-center justify-center hover:bg-navy-900 hover:text-white hover:border-navy-900 transition-all">
+                            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                        </button>
+                        <div id="sliderDots" class="flex gap-2">
+                            <button onclick="goToSlide(0)"
+                                class="w-3 h-3 rounded-full bg-accent-500 transition-all"></button>
+                            <button onclick="goToSlide(1)"
+                                class="w-3 h-3 rounded-full bg-navy-200 transition-all"></button>
+                            <button onclick="goToSlide(2)"
+                                class="w-3 h-3 rounded-full bg-navy-200 transition-all"></button>
+                        </div>
+                        <button onclick="slideTestimonials(1)"
+                            class="w-12 h-12 rounded-full border border-navy-200 flex items-center justify-center hover:bg-navy-900 hover:text-white hover:border-navy-900 transition-all">
+                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Contact Form -->
+        <section class="py-20 sm:py-28 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <!-- Left Content -->
+                    <div class="reveal-left">
+                        <div
+                            class="inline-flex items-center gap-2 bg-accent-50 text-accent-600 rounded-full px-4 py-1.5 mb-4">
+                            <span class="text-xs font-semibold tracking-wide uppercase">Get Started</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-900 tracking-tight mb-6">Ready
+                            to Boost Your Earnings?</h2>
+                        <p class="text-navy-500 text-lg leading-relaxed mb-8">Fill out the quick form and one of our
+                            dispatch specialists will reach out within 1 hour to discuss how we can help grow your
+                            business.</p>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+                                </div>
+                                <span class="text-navy-700">No long-term contracts required</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+                                </div>
+                                <span class="text-navy-700">Free consultation — no obligation</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+                                </div>
+                                <span class="text-navy-700">Start dispatching within 24 hours</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 flex items-center gap-4 p-4 bg-navy-50 rounded-xl">
+                            <div
+                                class="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="phone" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-navy-500">Prefer to call?</p>
+                                <p class="text-lg font-bold text-navy-900">(888) 555-0199</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Form -->
+                    <div class="reveal-right">
+                        <form id="quickContactForm" class="bg-navy-50 rounded-2xl p-8 sm:p-10 border border-navy-100"
+                            onsubmit="handleQuickForm(event)">
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Full Name *</label>
+                                    <input type="text" name="name" required
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                        placeholder="John Smith">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Phone Number *</label>
+                                    <input type="tel" name="phone" required
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                        placeholder="(555) 123-4567">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Email Address *</label>
+                                    <input type="email" name="email" required
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                        placeholder="john@example.com">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Truck Type</label>
+                                    <select name="truckType"
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 transition-all">
+                                        <option value="">Select truck type</option>
+                                        <option value="dry-van">Dry Van</option>
+                                        <option value="reefer">Reefer</option>
+                                        <option value="flatbed">Flatbed</option>
+                                        <option value="step-deck">Step Deck</option>
+                                        <option value="box-truck">Box Truck</option>
+                                        <option value="hotshot">Hotshot</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Message</label>
+                                    <textarea name="message" rows="3"
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all resize-none"
+                                        placeholder="Tell us about your needs..."></textarea>
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-accent-500 hover:bg-accent-600 text-white font-semibold py-4 rounded-xl transition-all hover:shadow-lg hover:shadow-accent-500/25 flex items-center justify-center gap-2">
+                                    <i data-lucide="send" class="w-5 h-5"></i>
+                                    Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==================== ABOUT PAGE ==================== -->
+    <div id="page-about" class="page-section">
+        <!-- About Hero -->
+        <section class="relative pt-32 pb-20 bg-navy-950 overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://picsum.photos/seed/logistics-warehouse/1920/800.jpg" alt="Warehouse"
+                    class="w-full h-full object-cover opacity-20">
+                <div class="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-950/90 to-navy-950"></div>
+            </div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div
+                    class="reveal inline-flex items-center gap-2 bg-accent-500/10 text-accent-400 rounded-full px-4 py-1.5 mb-4">
+                    <span class="text-xs font-semibold tracking-wide uppercase">About Us</span>
+                </div>
+                <h1 class="reveal text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">Driven by
+                    Purpose,<br>Powered by Experience</h1>
+                <p class="reveal text-navy-300 text-lg max-w-2xl mx-auto">We started RouteMasters Pro because we believe
+                    every truck driver deserves a fair shot at maximizing their earnings without the headache of running
+                    a business alone.</p>
+            </div>
+        </section>
+
+        <!-- Company Intro -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="reveal-left">
+                        <img src="https://picsum.photos/seed/dispatch-office-team/700/500.jpg" alt="Our team"
+                            class="rounded-2xl shadow-xl w-full h-[400px] object-cover">
+                    </div>
+                    <div class="reveal-right">
+                        <h2 class="text-3xl sm:text-4xl font-bold text-navy-900 tracking-tight mb-6">From a Small Desk
+                            to a Nationwide Operation</h2>
+                        <p class="text-navy-500 text-lg leading-relaxed mb-6">Founded in 2018, RouteMasters Pro started
+                            with a simple mission: help owner-operators and small fleet owners get the support they need
+                            to compete with larger carriers. Our founders, having spent years in the logistics industry,
+                            understood the pain points firsthand — the endless broker calls, the paperwork burden, and
+                            the revenue left on the table.</p>
+                        <p class="text-navy-500 text-lg leading-relaxed mb-6">Today, we've grown into a team of 40+
+                            experienced dispatchers serving over 500 drivers across all 48 continental states. We've
+                            successfully dispatched more than 15,000 loads and helped our clients earn an average of 32%
+                            more per mile.</p>
+                        <p class="text-navy-500 text-lg leading-relaxed">But we've never lost sight of what matters
+                            most: treating every driver like family and every load like it's our own business on the
+                            line.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Vision -->
+        <section class="py-20 bg-navy-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-8 stagger-children">
+                    <div class="reveal bg-white rounded-2xl p-10 border border-navy-100 shadow-sm">
+                        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="target" class="w-7 h-7 text-accent-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-navy-900 mb-4">Our Mission</h3>
+                        <p class="text-navy-500 text-lg leading-relaxed">To empower owner-operators and small fleet
+                            owners with world-class dispatching services that maximize revenue, minimize stress, and
+                            create a sustainable path to business growth in the trucking industry.</p>
+                    </div>
+                    <div class="reveal bg-white rounded-2xl p-10 border border-navy-100 shadow-sm">
+                        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="eye" class="w-7 h-7 text-accent-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-navy-900 mb-4">Our Vision</h3>
+                        <p class="text-navy-500 text-lg leading-relaxed">To become the most trusted and driver-centric
+                            dispatch company in America, setting the industry standard for transparency, reliability,
+                            and results — where every driver feels like our only client.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="reveal text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-900 tracking-tight mb-4">Why
+                        Drivers Choose Us</h2>
+                    <p class="reveal text-navy-500 text-lg max-w-2xl mx-auto">We're different from every other dispatch
+                        company. Here's what sets us apart.</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
+                    <div class="reveal text-center p-6">
+                        <div class="w-16 h-16 bg-accent-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                            <i data-lucide="handshake" class="w-8 h-8 text-accent-500"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-navy-900 mb-2">No Forced Dispatch</h4>
+                        <p class="text-navy-500 text-sm leading-relaxed">You always have the final say. We present
+                            options, you make the decisions.</p>
+                    </div>
+                    <div class="reveal text-center p-6">
+                        <div class="w-16 h-16 bg-accent-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                            <i data-lucide="user-check" class="w-8 h-8 text-accent-500"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-navy-900 mb-2">Dedicated Dispatcher</h4>
+                        <p class="text-navy-500 text-sm leading-relaxed">One dispatcher assigned to you — not a rotating
+                            call center. They learn your preferences.</p>
+                    </div>
+                    <div class="reveal text-center p-6">
+                        <div class="w-16 h-16 bg-accent-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                            <i data-lucide="bar-chart-3" class="w-8 h-8 text-accent-500"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-navy-900 mb-2">Transparent Reporting</h4>
+                        <p class="text-navy-500 text-sm leading-relaxed">Weekly earnings reports so you always know
+                            exactly how your business is performing.</p>
+                    </div>
+                    <div class="reveal text-center p-6">
+                        <div class="w-16 h-16 bg-accent-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                            <i data-lucide="zap" class="w-8 h-8 text-accent-500"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-navy-900 mb-2">Quick Onboarding</h4>
+                        <p class="text-navy-500 text-sm leading-relaxed">Get set up and dispatched within 24 hours. No
+                            lengthy process or red tape.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==================== SERVICES PAGE ==================== -->
+    <div id="page-services" class="page-section">
+        <!-- Services Hero -->
+        <section class="relative pt-32 pb-20 bg-navy-950 overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://picsum.photos/seed/truck-loading-dock/1920/800.jpg" alt="Loading dock"
+                    class="w-full h-full object-cover opacity-15">
+                <div class="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-950/90 to-navy-950"></div>
+            </div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div
+                    class="reveal inline-flex items-center gap-2 bg-accent-500/10 text-accent-400 rounded-full px-4 py-1.5 mb-4">
+                    <span class="text-xs font-semibold tracking-wide uppercase">Our Services</span>
+                </div>
+                <h1 class="reveal text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">Complete
+                    Dispatch<br>Services for Every Need</h1>
+                <p class="reveal text-navy-300 text-lg max-w-2xl mx-auto">Whether you're a solo owner-operator or
+                    managing a fleet, our comprehensive dispatch solutions are designed to grow with your business.</p>
+            </div>
+        </section>
+
+        <!-- Services Detail Cards -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="space-y-12">
+                    <!-- Service 1: Load Booking -->
+                    <div
+                        class="reveal grid lg:grid-cols-2 gap-10 items-center bg-navy-50 rounded-2xl p-8 sm:p-12 border border-navy-100">
+                        <div>
+                            <div class="w-14 h-14 bg-accent-500 rounded-xl flex items-center justify-center mb-6">
+                                <i data-lucide="package-search" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-bold text-navy-900 mb-4">Load Booking</h3>
+                            <p class="text-navy-500 text-lg leading-relaxed mb-6">Our dispatchers scour top load boards
+                                and broker networks to find freight that pays what you deserve. We match loads to your
+                                equipment type, preferred lanes, and schedule — never forcing you into bad deals.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Access to 150+ broker
+                                    networks</li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Rate negotiation on every
+                                    load</li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Backhaul planning to reduce
+                                    deadhead</li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Lane preference matching</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img src="https://picsum.photos/seed/freight-loading/600/400.jpg" alt="Load booking"
+                                class="rounded-xl w-full h-[300px] object-cover shadow-lg">
+                        </div>
+                    </div>
+
+                    <!-- Service 2: Route Planning -->
+                    <div
+                        class="reveal grid lg:grid-cols-2 gap-10 items-center bg-navy-50 rounded-2xl p-8 sm:p-12 border border-navy-100">
+                        <div class="order-2 lg:order-1">
+                            <img src="https://picsum.photos/seed/gps-map-route/600/400.jpg" alt="Route planning"
+                                class="rounded-xl w-full h-[300px] object-cover shadow-lg">
+                        </div>
+                        <div class="order-1 lg:order-2">
+                            <div class="w-14 h-14 bg-accent-500 rounded-xl flex items-center justify-center mb-6">
+                                <i data-lucide="route" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-bold text-navy-900 mb-4">Route Planning</h3>
+                            <p class="text-navy-500 text-lg leading-relaxed mb-6">We plan the most efficient routes
+                                factoring in distance, fuel costs, tolls, weather conditions, and delivery windows. Our
+                                goal is to get you there safely, on time, and profitably.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Fuel-optimized routing</li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Real-time weather monitoring
+                                </li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> HOS compliance tracking</li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Toll and weigh station
+                                    planning</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Service 3: Driver Support -->
+                    <div
+                        class="reveal grid lg:grid-cols-2 gap-10 items-center bg-navy-50 rounded-2xl p-8 sm:p-12 border border-navy-100">
+                        <div>
+                            <div class="w-14 h-14 bg-accent-500 rounded-xl flex items-center justify-center mb-6">
+                                <i data-lucide="headphones" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-bold text-navy-900 mb-4">Driver Support</h3>
+                            <p class="text-navy-500 text-lg leading-relaxed mb-6">When you're out on the road, things
+                                happen. Breakdowns, delays, confusing delivery instructions — we're your lifeline. Call
+                                us anytime and we'll sort it out.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Emergency breakdown
+                                    coordination</li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Fuel stop recommendations
+                                </li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Receiver/broker communication
+                                </li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Detention & layover tracking
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img src="https://picsum.photos/seed/driver-phone-support/600/400.jpg" alt="Driver support"
+                                class="rounded-xl w-full h-[300px] object-cover shadow-lg">
+                        </div>
+                    </div>
+
+                    <!-- Service 4: Documentation Handling -->
+                    <div
+                        class="reveal grid lg:grid-cols-2 gap-10 items-center bg-navy-50 rounded-2xl p-8 sm:p-12 border border-navy-100">
+                        <div class="order-2 lg:order-1">
+                            <img src="https://picsum.photos/seed/paperwork-documents-office/600/400.jpg"
+                                alt="Documentation" class="rounded-xl w-full h-[300px] object-cover shadow-lg">
+                        </div>
+                        <div class="order-1 lg:order-2">
+                            <div class="w-14 h-14 bg-accent-500 rounded-xl flex items-center justify-center mb-6">
+                                <i data-lucide="file-check" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-bold text-navy-900 mb-4">Documentation Handling</h3>
+                            <p class="text-navy-500 text-lg leading-relaxed mb-6">We manage all the paperwork that comes
+                                with every load — from rate confirmations to bills of lading, invoices, and proof of
+                                delivery. Nothing falls through the cracks.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Rate confirmation management
+                                </li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> BOL collection & verification
+                                </li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Invoice generation & tracking
+                                </li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Organized digital filing
+                                    system</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Service 5: 24/7 Dispatch -->
+                    <div
+                        class="reveal grid lg:grid-cols-2 gap-10 items-center bg-navy-50 rounded-2xl p-8 sm:p-12 border border-navy-100">
+                        <div>
+                            <div class="w-14 h-14 bg-accent-500 rounded-xl flex items-center justify-center mb-6">
+                                <i data-lucide="radio" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-bold text-navy-900 mb-4">24/7 Dispatch Services</h3>
+                            <p class="text-navy-500 text-lg leading-relaxed mb-6">The trucking industry doesn't follow a
+                                9-to-5 schedule, and neither do we. Our dispatchers work in shifts to provide
+                                uninterrupted coverage — nights, weekends, and holidays included.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Round-the-clock availability
+                                </li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Holiday and weekend coverage
+                                </li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Quick response time (under 5
+                                    min)</li>
+                                <li class="flex items-center gap-3 text-navy-600"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0"></i> Multi-channel communication
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img src="https://picsum.photos/seed/night-driving-truck/600/400.jpg" alt="24/7 dispatch"
+                                class="rounded-xl w-full h-[300px] object-cover shadow-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="py-20 bg-accent-500">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="reveal text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">Ready to Experience the
+                    Difference?</h2>
+                <p class="reveal text-white/80 text-lg mb-8">Join 500+ drivers who are earning more and stressing less
+                    with RouteMasters Pro.</p>
+                <div class="reveal flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#" onclick="navigateTo('contact')"
+                        class="inline-flex items-center justify-center gap-2 bg-white text-accent-600 font-semibold px-8 py-4 rounded-xl hover:bg-navy-50 transition-all hover:shadow-xl">
+                        <i data-lucide="file-text" class="w-5 h-5"></i> Get a Free Quote
+                    </a>
+                    <a href="#" onclick="navigateTo('driver')"
+                        class="inline-flex items-center justify-center gap-2 bg-transparent text-white font-semibold px-8 py-4 rounded-xl border-2 border-white hover:bg-white/10 transition-all">
+                        <i data-lucide="user-plus" class="w-5 h-5"></i> Register as Driver
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==================== PRICING PAGE ==================== -->
+    <div id="page-pricing" class="page-section">
+        <!-- Pricing Hero -->
+        <section class="relative pt-32 pb-20 bg-navy-950 overflow-hidden">
+            <div class="absolute inset-0">
+                <div class="absolute top-20 right-20 w-72 h-72 bg-accent-500/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-10 left-10 w-96 h-96 bg-navy-700/20 rounded-full blur-3xl"></div>
+            </div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div
+                    class="reveal inline-flex items-center gap-2 bg-accent-500/10 text-accent-400 rounded-full px-4 py-1.5 mb-4">
+                    <span class="text-xs font-semibold tracking-wide uppercase">Pricing Plans</span>
+                </div>
+                <h1 class="reveal text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">Simple,
+                    Transparent<br>Pricing</h1>
+                <p class="reveal text-navy-300 text-lg max-w-2xl mx-auto">No hidden fees. No surprises. Choose the plan
+                    that fits your operation and start earning more today.</p>
+            </div>
+        </section>
+
+        <!-- Pricing Cards -->
+        <section class="py-20 bg-navy-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto stagger-children">
+                    <!-- Basic Plan -->
+                    <div class="reveal bg-white rounded-2xl p-8 border border-navy-100 shadow-sm flex flex-col">
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-navy-500 mb-2">Basic</h3>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-5xl font-bold text-navy-900">5%</span>
+                                <span class="text-navy-500 text-lg">/ load</span>
+                            </div>
+                            <p class="text-navy-500 text-sm mt-2">Perfect for part-time operators getting started with
+                                dispatch services.</p>
+                        </div>
+                        <div class="border-t border-navy-100 pt-6 mb-8 flex-1">
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Load booking &
+                                    negotiation</li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Route planning</li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Rate confirmations
+                                </li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Business hours support
+                                </li>
+                                <li class="flex items-start gap-3 text-navy-400 text-sm"><i data-lucide="x"
+                                        class="w-5 h-5 flex-shrink-0 mt-0.5"></i> 24/7 dispatch coverage</li>
+                                <li class="flex items-start gap-3 text-navy-400 text-sm"><i data-lucide="x"
+                                        class="w-5 h-5 flex-shrink-0 mt-0.5"></i> Dedicated dispatcher</li>
+                                <li class="flex items-start gap-3 text-navy-400 text-sm"><i data-lucide="x"
+                                        class="w-5 h-5 flex-shrink-0 mt-0.5"></i> Weekly earnings reports</li>
+                            </ul>
+                        </div>
+                        <a href="#" onclick="navigateTo('contact')"
+                            class="block text-center bg-navy-900 hover:bg-navy-800 text-white font-semibold py-3.5 rounded-xl transition-all">
+                            Get Started
+                        </a>
+                    </div>
+
+                    <!-- Standard Plan (Recommended) -->
+                    <div
+                        class="reveal bg-navy-900 rounded-2xl p-8 border-2 border-accent-500 shadow-xl popular-glow flex flex-col relative">
+                        <div
+                            class="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent-500 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wide">
+                            Most Popular
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-accent-400 mb-2">Standard</h3>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-5xl font-bold text-white">4%</span>
+                                <span class="text-navy-400 text-lg">/ load</span>
+                            </div>
+                            <p class="text-navy-400 text-sm mt-2">Our most popular plan for full-time owner-operators
+                                who want comprehensive support.</p>
+                        </div>
+                        <div class="border-t border-navy-700 pt-6 mb-8 flex-1">
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3 text-navy-200 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Load booking &
+                                    negotiation</li>
+                                <li class="flex items-start gap-3 text-navy-200 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Route planning</li>
+                                <li class="flex items-start gap-3 text-navy-200 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Rate confirmations
+                                </li>
+                                <li class="flex items-start gap-3 text-navy-200 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> 24/7 dispatch coverage
+                                </li>
+                                <li class="flex items-start gap-3 text-navy-200 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Dedicated dispatcher
+                                </li>
+                                <li class="flex items-start gap-3 text-navy-200 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Weekly earnings
+                                    reports</li>
+                                <li class="flex items-start gap-3 text-navy-400 text-sm"><i data-lucide="x"
+                                        class="w-5 h-5 flex-shrink-0 mt-0.5"></i> Priority load matching</li>
+                            </ul>
+                        </div>
+                        <a href="#" onclick="navigateTo('contact')"
+                            class="block text-center bg-accent-500 hover:bg-accent-600 text-white font-semibold py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-accent-500/25">
+                            Get Started
+                        </a>
+                    </div>
+
+                    <!-- Premium Plan -->
+                    <div class="reveal bg-white rounded-2xl p-8 border border-navy-100 shadow-sm flex flex-col">
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-navy-500 mb-2">Premium</h3>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-5xl font-bold text-navy-900">3%</span>
+                                <span class="text-navy-500 text-lg">/ load</span>
+                            </div>
+                            <p class="text-navy-500 text-sm mt-2">For fleet owners and high-volume operators who demand
+                                the best service available.</p>
+                        </div>
+                        <div class="border-t border-navy-100 pt-6 mb-8 flex-1">
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Everything in Standard
+                                </li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Priority load matching
+                                </li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Full documentation
+                                    handling</li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Broker relationship
+                                    management</li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Fleet dashboard &
+                                    analytics</li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Compliance assistance
+                                </li>
+                                <li class="flex items-start gap-3 text-navy-600 text-sm"><i data-lucide="check"
+                                        class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i> Dedicated account
+                                    manager</li>
+                            </ul>
+                        </div>
+                        <a href="#" onclick="navigateTo('contact')"
+                            class="block text-center bg-navy-900 hover:bg-navy-800 text-white font-semibold py-3.5 rounded-xl transition-all">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Note -->
+                <div class="reveal text-center mt-12">
+                    <p class="text-navy-500 text-sm">All plans include a 2-week free trial. No credit card required to
+                        start. Cancel anytime.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==================== CONTACT PAGE ==================== -->
+    <div id="page-contact" class="page-section">
+        <!-- Contact Hero -->
+        <section class="relative pt-32 pb-20 bg-navy-950 overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://picsum.photos/seed/city-highway-aerial/1920/800.jpg" alt="Highway aerial"
+                    class="w-full h-full object-cover opacity-15">
+                <div class="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-950/90 to-navy-950"></div>
+            </div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div
+                    class="reveal inline-flex items-center gap-2 bg-accent-500/10 text-accent-400 rounded-full px-4 py-1.5 mb-4">
+                    <span class="text-xs font-semibold tracking-wide uppercase">Contact Us</span>
+                </div>
+                <h1 class="reveal text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">Let's Get
+                    You<br>Rolling</h1>
+                <p class="reveal text-navy-300 text-lg max-w-2xl mx-auto">Have questions or ready to get started? Reach
+                    out and we'll get back to you within 1 hour.</p>
+            </div>
+        </section>
+
+        <!-- Contact Content -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-5 gap-12">
+                    <!-- Contact Form -->
+                    <div class="lg:col-span-3 reveal-left">
+                        <h2 class="text-2xl font-bold text-navy-900 mb-2">Get a Free Quote</h2>
+                        <p class="text-navy-500 mb-8">Fill out the form below and our dispatch team will contact you
+                            shortly.</p>
+
+                        <form id="contactForm" onsubmit="handleContactForm(event)" class="space-y-5">
+                            <div class="grid sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Full Name *</label>
+                                    <input type="text" name="name" required
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                        placeholder="John Smith">
+                                    <span class="text-red-500 text-xs mt-1 hidden" data-error="name">Please enter your
+                                        name</span>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Phone Number *</label>
+                                    <input type="tel" name="phone" required pattern="[0-9]{10,15}"
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                        placeholder="03XXXXXXXXX">
+                                    <span class="text-red-500 text-xs mt-1 hidden" data-error="phone">Please enter a
+                                        valid phone number</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-navy-700 mb-2">Email Address *</label>
+                                <input type="email" name="email" required
+                                    class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                    placeholder="example@email.com">
+                                <span class="text-red-500 text-xs mt-1 hidden" data-error="email">Please enter a valid
+                                    email address</span>
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Truck Type</label>
+                                    <select name="truckType"
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 transition-all">
+                                        <option value="">Select truck type</option>
+                                        <option value="dry-van">Dry Van</option>
+                                        <option value="reefer">Reefer</option>
+                                        <option value="flatbed">Flatbed</option>
+                                        <option value="step-deck">Step Deck</option>
+                                        <option value="box-truck">Box Truck</option>
+                                        <option value="hotshot">Hotshot</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-navy-700 mb-2">Number of Trucks</label>
+                                    <select name="numTrucks"
+                                        class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 transition-all">
+                                        <option value="">Select</option>
+                                        <option value="1">1 (Owner Operator)</option>
+                                        <option value="2-5">2 - 5 Trucks</option>
+                                        <option value="6-20">6 - 20 Trucks</option>
+                                        <option value="20+">20+ Trucks</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-navy-700 mb-2">Message *</label>
+                                <textarea name="message" rows="5" required
+                                    class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all resize-none"
+                                    placeholder="Tell us about your trucking business, your current challenges, and what you're looking for..."></textarea>
+                                <span class="text-red-500 text-xs mt-1 hidden" data-error="message">Please enter your
+                                    message</span>
+                            </div>
+                            <button type="submit" id="contactSubmitBtn"
+                                class="w-full sm:w-auto bg-accent-500 hover:bg-accent-600 text-white font-semibold px-10 py-4 rounded-xl transition-all hover:shadow-lg hover:shadow-accent-500/25 flex items-center justify-center gap-2">
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Contact Info + Map -->
+                    <div class="lg:col-span-2 reveal-right space-y-8">
+                        <!-- Contact Cards -->
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 p-5 bg-navy-50 rounded-xl border border-navy-100">
+                                <div
+                                    class="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="phone" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-navy-900 mb-1">Phone</h4>
+                                    <p class="text-navy-600"><a href="tel:+18005551234">(800) 555-1234</a></p>
+                                    <p class="text-navy-400 text-sm">Available 24/7</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-5 bg-navy-50 rounded-xl border border-navy-100">
+                                <div
+                                    class="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="mail" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-navy-900 mb-1">Email</h4>
+                                    <p class="text-navy-600"><a
+                                            href="mail:dispatch@routemasterspro.com">dispatch@routemasterspro.com</a>
+                                    </p>
+                                    <p class="text-navy-400 text-sm">Response within 1 hour</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-5 bg-navy-50 rounded-xl border border-navy-100">
+                                <div
+                                    class="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="map-pin" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-navy-900 mb-1">Office</h4>
+                                    <p class="text-navy-600"><a href="https://www.google.com/maps">1200 Commerce Drive,
+                                            Suite 400</a></p>
+                                    <p class="text-navy-400 text-sm">Chicago, IL 60654</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Map Placeholder -->
+                        <div class="relative rounded-xl overflow-hidden h-[250px] bg-navy-100 border border-navy-200">
+                            <img src="https://picsum.photos/seed/map-chicago-area/600/300.jpg" alt="Map location"
+                                class="w-full h-full object-cover opacity-60">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="bg-white rounded-lg shadow-lg p-4 flex items-center gap-3">
+                                    <i data-lucide="map-pin" class="w-6 h-6 text-accent-500"></i>
+                                    <div>
+                                        <p class="font-semibold text-navy-900 text-sm">RouteMasters Pro</p>
+                                        <p class="text-navy-500 text-xs">Chicago, IL</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==================== DRIVER REGISTRATION PAGE ==================== -->
+    <div id="page-driver" class="page-section">
+        <!-- Driver Registration Hero -->
+        <section class="relative pt-32 pb-20 bg-navy-950 overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://picsum.photos/seed/truck-cab-interior/1920/800.jpg" alt="Truck cab"
+                    class="w-full h-full object-cover opacity-15">
+                <div class="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-950/90 to-navy-950"></div>
+            </div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div
+                    class="reveal inline-flex items-center gap-2 bg-accent-500/10 text-accent-400 rounded-full px-4 py-1.5 mb-4">
+                    <span class="text-xs font-semibold tracking-wide uppercase">Driver Registration</span>
+                </div>
+                <h1 class="reveal text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">Join Our
+                    Driver<br>Network</h1>
+                <p class="reveal text-navy-300 text-lg max-w-2xl mx-auto">Fill out the registration form below and our
+                    onboarding team will get you set up within 24 hours. Start earning more — it's that simple.</p>
+            </div>
+        </section>
+
+        <!-- Registration Form -->
+        <section class="py-20 bg-white">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal bg-navy-50 rounded-2xl p-8 sm:p-12 border border-navy-100">
+                    <form id="driverForm" onsubmit="handleDriverForm(event)" class="space-y-6">
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-navy-700 mb-2">Full Name *</label>
+                                <input type="text" name="fullName" required
+                                    class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                    placeholder="John Smith">
+                                <span class="text-red-500 text-xs mt-1 hidden" data-error="fullName">Name is
+                                    required</span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-navy-700 mb-2">Phone Number *</label>
+                                <input type="tel" name="driverPhone" required pattern="[0-9]{10,15}"
+                                    class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                    placeholder="(555) 123-4567">
+                                <span class="text-red-500 text-xs mt-1 hidden" data-error="driverPhone">Valid phone is
+                                    required</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-navy-700 mb-2">Email Address *</label>
+                            <input type="email" name="driverEmail" required
+                                class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                placeholder="example@email.com">
+                            <span class="text-red-500 text-xs mt-1 hidden" data-error="driverEmail">Valid email is
+                                required</span>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-navy-700 mb-2">Truck Type *</label>
+                                <select name="driverTruckType" required
+                                    class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 transition-all">
+                                    <option value="">Select truck type</option>
+                                    <option value="dry-van">Dry Van</option>
+                                    <option value="reefer">Reefer</option>
+                                    <option value="flatbed">Flatbed</option>
+                                    <option value="step-deck">Step Deck</option>
+                                    <option value="box-truck">Box Truck</option>
+                                    <option value="hotshot">Hotshot</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <span class="text-red-500 text-xs mt-1 hidden" data-error="driverTruckType">Please
+                                    select a truck type</span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-navy-700 mb-2">Years of Experience
+                                    *</label>
+                                <select name="experience" required
+                                    class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 transition-all">
+                                    <option value="">Select experience</option>
+                                    <option value="0-1">Less than 1 year</option>
+                                    <option value="1-3">1 - 3 years</option>
+                                    <option value="3-5">3 - 5 years</option>
+                                    <option value="5-10">5 - 10 years</option>
+                                    <option value="10+">10+ years</option>
+                                </select>
+                                <span class="text-red-500 text-xs mt-1 hidden" data-error="experience">Please select
+                                    your experience</span>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-navy-700 mb-2">MC/DOT Number</label>
+                                <input type="text" name="mcDot"
+                                    class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                    placeholder="e.g., MC-123456">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-navy-700 mb-2">Insurance Status</label>
+                                <select name="insurance"
+                                    class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 transition-all">
+                                    <option value="">Select</option>
+                                    <option value="active">Active</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="none">None yet</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-navy-700 mb-2">Preferred Lanes
+                                (Optional)</label>
+                            <input type="text" name="lanes"
+                                class="w-full px-4 py-3 rounded-xl border border-navy-200 bg-white text-navy-900 placeholder-navy-400 transition-all"
+                                placeholder="e.g., Midwest to Southeast, TX to CA">
+                        </div>
+
+                        <!-- File Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-navy-700 mb-2">Upload Documents (UI
+                                Demo)</label>
+                            <div id="fileUploadArea"
+                                class="border-2 border-dashed border-navy-200 rounded-xl p-8 text-center hover:border-accent-400 transition-colors cursor-pointer"
+                                onclick="document.getElementById('fileInput').click()">
+                                <i data-lucide="upload-cloud" class="w-10 h-10 text-navy-300 mx-auto mb-3"></i>
+                                <p class="text-navy-600 font-medium mb-1">Click to upload files</p>
+                                <p class="text-navy-400 text-sm">PDF, JPG, PNG up to 10MB each</p>
+                                <p class="text-navy-400 text-xs mt-1">(CDL, Insurance, W-9, etc.)</p>
+                                <input type="file" id="fileInput" class="hidden" multiple accept=".pdf,.jpg,.jpeg,.png"
+                                    onchange="handleFileSelect(this)">
+                            </div>
+                            <div id="fileList" class="mt-3 space-y-2"></div>
+                        </div>
+
+                        <!-- Agreement -->
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" id="agreeTerms" name="agreeTerms" required
+                                class="mt-1 w-4 h-4 text-accent-500 border-navy-300 rounded">
+                            <label for="agreeTerms" class="text-sm text-navy-600">I agree to the terms of service and
+                                understand that submitting this form does not create a binding agreement. RouteMasters
+                                Pro will contact me to discuss next steps.</label>
+                        </div>
+                        <span class="text-red-500 text-xs hidden" data-error="agreeTerms">You must agree to the
+                            terms</span>
+
+                        <button type="submit" id="driverSubmitBtn"
+                            class="w-full bg-accent-500 hover:bg-accent-600 text-white font-semibold py-4 rounded-xl transition-all hover:shadow-lg hover:shadow-accent-500/25 flex items-center justify-center gap-2 text-lg">
+                            <i data-lucide="user-plus" class="w-5 h-5"></i>
+                            Submit Registration
+                        </button>
+                    </form>
+
+                    <!-- Success Message (hidden by default) -->
+                    <div id="driverSuccess" class="hidden text-center py-12">
+                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="check-circle" class="w-10 h-10 text-green-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-navy-900 mb-3">Registration Submitted Successfully!</h3>
+                        <p class="text-navy-500 text-lg max-w-md mx-auto mb-6">Thank you for registering with
+                            RouteMasters Pro. Our onboarding team will contact you within 24 hours to get you set up.
+                        </p>
+                        <div class="bg-white rounded-xl p-6 border border-navy-100 inline-block">
+                            <p class="text-sm text-navy-500 mb-2">What happens next?</p>
+                            <ol class="text-sm text-navy-700 space-y-2 text-left">
+                                <li class="flex items-center gap-2"><span
+                                        class="w-6 h-6 bg-accent-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+                                    Review call within 24 hours</li>
+                                <li class="flex items-center gap-2"><span
+                                        class="w-6 h-6 bg-accent-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+                                    Verify documents & setup account</li>
+                                <li class="flex items-center gap-2"><span
+                                        class="w-6 h-6 bg-accent-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+                                    Match with your dedicated dispatcher</li>
+                                <li class="flex items-center gap-2"><span
+                                        class="w-6 h-6 bg-accent-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">4</span>
+                                    Start dispatching — earn more!</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-navy-950 border-t border-navy-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                <!-- Company -->
+                <div>
+                    <a href="#" onclick="navigateTo('home')" class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-accent-500 rounded-lg flex items-center justify-center">
+                            <i data-lucide="truck" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <span class="text-xl font-bold text-white">Route<span
+                                    class="text-accent-500">Masters</span></span>
+                        </div>
+                    </a>
+                    <p class="text-navy-400 text-sm leading-relaxed mb-6">America's trusted truck dispatching partner.
+                        We keep your trucks moving and your business growing.</p>
+                    <div class="flex gap-3">
+                        <a href="https://x.com/"
+                            class="w-10 h-10 bg-navy-800 hover:bg-accent-500 rounded-lg flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg>
+                        </a>
+                        <a href="https://facebook.com"
+                            class="w-10 h-10 bg-navy-800 hover:bg-accent-500 rounded-lg flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com"
+                            class="w-10 h-10 bg-navy-800 hover:bg-accent-500 rounded-lg flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667h-3.554v-11.452h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zm-15.11-13.019c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019h-3.564v-11.452h3.564v11.452zm15.106-20.452h-20.454c-.979 0-1.771.774-1.771 1.729v20.542c0 .956.792 1.729 1.771 1.729h20.451c.978 0 1.778-.773 1.778-1.729v-20.542c0-.955-.8-1.729-1.778-1.729z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" onclick="navigateTo('home')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Home</a></li>
+                        <li><a href="#" onclick="navigateTo('about')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">About Us</a></li>
+                        <li><a href="#" onclick="navigateTo('services')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Services</a></li>
+                        <li><a href="#" onclick="navigateTo('pricing')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Pricing</a></li>
+                        <li><a href="#" onclick="navigateTo('contact')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Contact</a></li>
+                        <li><a href="#" onclick="navigateTo('driver')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Driver
+                                Registration</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Services</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" onclick="navigateTo('services')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Load Booking</a>
+                        </li>
+                        <li><a href="#" onclick="navigateTo('services')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Route Planning</a>
+                        </li>
+                        <li><a href="#" onclick="navigateTo('services')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Driver Support</a>
+                        </li>
+                        <li><a href="#" onclick="navigateTo('services')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">Documentation</a>
+                        </li>
+                        <li><a href="#" onclick="navigateTo('services')"
+                                class="text-navy-400 hover:text-accent-400 transition-colors text-sm">24/7 Dispatch</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Contact Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-navy-400 text-sm"><a href="tel:+18005551234">(800) 555-1234</a></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-navy-400 text-sm"><a
+                                    href="mail:dispatch@routemasterspro.com">dispatch@routemasterspro.com</a></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-navy-400 text-sm"><a href="https://www.google.com/maps">1200 Commerce
+                                    Drive, Suite 400<br>Chicago, IL 60654</a></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="clock" class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-navy-400 text-sm">Available 24/7/365</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div
+                class="border-t border-navy-800 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-navy-500 text-sm">© 2025 RouteMasters Pro. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <button onclick="openLegalModal('privacy')" class="text-navy-500 hover:text-accent-400 transition-colors text-sm">Privacy Policy</button>
+                    <button onclick="openLegalModal('terms')" class="text-navy-500 hover:text-accent-400 transition-colors text-sm">Terms of Service</button>
+                    <button onclick="openLegalModal('disclaimer')" class="text-navy-500 hover:text-accent-400 transition-colors text-sm">Disclaimer</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==================== LEGAL MODALS ==================== -->
+    <!-- Privacy Policy Modal -->
+    <div id="legalModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-navy-950/80 backdrop-blur-sm" onclick="closeLegalModal()"></div>
+        <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col" style="max-height:90vh;">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-8 py-5 border-b border-navy-100 bg-navy-950 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div id="legalModalIcon" class="w-10 h-10 bg-accent-500 rounded-lg flex items-center justify-center">
+                        <i data-lucide="shield" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h2 id="legalModalTitle" class="text-xl font-bold text-white">Privacy Policy</h2>
+                </div>
+                <button onclick="closeLegalModal()" class="text-navy-300 hover:text-white p-2 rounded-lg hover:bg-navy-800 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div id="legalModalBody" class="overflow-y-auto px-8 py-6 text-navy-700 text-sm leading-relaxed space-y-4 flex-1">
+            </div>
+            <!-- Modal Footer -->
+            <div class="px-8 py-4 border-t border-navy-100 bg-navy-50 flex-shrink-0 text-right">
+                <button onclick="closeLegalModal()" class="bg-accent-500 hover:bg-accent-600 text-white font-semibold px-8 py-2.5 rounded-xl transition-all text-sm">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load scripts -->
+    <script src="main.js"></script>
+</body>
+
+</html>
